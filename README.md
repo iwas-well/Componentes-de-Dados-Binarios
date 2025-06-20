@@ -1,6 +1,6 @@
 Máscara Automática de Componentes em Dados Meteorológicos
 
-Este programa em C identifica componentes conexos com mesmo sinal (positivo ou negativo) em campos meteorológicos, armazenados em formato binário. Os componentes são definidos como conjuntos de células adjacentes com mesmo sinal (valor positivo ou negativo), formando regiões conectadas.
+Este programa em C identifica componentes conexos em campos meteorológicos armazenados em formato binário. Os componentes são definidos como conjuntos de células adjacentes com mesmo sinal (valor positivo ou negativo), formando regiões conectadas.
 
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
 
@@ -33,11 +33,10 @@ Exemplo:
     Leitura dos dados binários: O programa lê nx * ny valores float de um arquivo.
     Busca por componentes conexos:
         Para cada célula ainda não visitada:
-            Executa uma BFS para encontrar todas as células conectadas com o mesmo sinal (positivo ou negativo).
-            Ignora células com valor indefinido.
+            Executa uma BFS para encontrar todas as células conectadas com o mesmo sinal (positivo ou negativo) ignorando células com valor indefinido.
             Marca todas as células do componente com valor 1.0 na máscara de saída.
             Salva a máscara se o componente tiver tamanho ≥ MIN_COMPONENT_SIZE.
-    Estrutura de dados:
+    Estrutura de dados utilizada:
         Usa uma fila circular (queue_t) para gerenciar a BFS.
         Os componentes são identificados por varredura sequencial do campo.
 
