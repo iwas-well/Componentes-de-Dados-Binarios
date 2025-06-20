@@ -5,31 +5,18 @@ Este programa em C identifica componentes conexos com mesmo sinal (positivo ou n
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
 
 📂 Entrada
-```
+    
     Um arquivo binário contendo nx * ny floats, representando um campo bidimensional.
     Parâmetros de dimensão: nx (largura), ny (altura), nt (tempo, atualmente não utilizado no loop principal).
     Valores indefinidos devem estar marcados com 777.7 (modificável no código).
     O programa ignora células indefinidas ao buscar componentes.
-```
 
 🧮 Saída
-```
     Um arquivo binário com até MAX_OUT_NT (padrão: 30) campos bidimensionais (nx × ny).
-
     Cada campo representa uma máscara com valores:
-
         1.0 para células pertencentes ao componente detectado.
-
         777.7 para demais posições (valor indefinido).
-
     Cada máscara representa um componente de tamanho ≥ MIN_COMPONENT_SIZE (padrão: 80).
-```
-
-🛠️ Compilação
-
-Use gcc ou outro compilador C:
-
-gcc -o mascara_componentes main.c -lm
 
 ▶️ Uso
 ```
