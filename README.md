@@ -7,8 +7,7 @@ O dado é tratado como um grafo não direcionado, onde cada célula é um vérti
 # 📂 Entrada
 - Um arquivo binário contendo nx * ny floats, representando um campo bidimensional.
 - Parâmetros de dimensão: nx (largura), ny (altura), nt (tempo, atualmente não utilizado no loop principal).
-- Valores indefinidos devem estar marcados com 777.7 (modificável no código).
-- O programa ignora células indefinidas ao buscar componentes.
+- valor representante de dado faltante.
 
 # 🧮 Saída
 - Um arquivo binário com até MAX_OUT_NT (padrão: 30) campos bidimensionais (nx × ny).
