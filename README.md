@@ -7,7 +7,7 @@ O dado é tratado como um grafo não direcionado, onde cada célula é um vérti
 # 📂 Entrada
 - Nome do arquivo binário de entrada contendo nx * ny * nt floats, representando um campo bidimensional.
 - Parâmetros de dimensão: nx (largura), ny (altura), nt (tempo, atualmente não utilizado no loop principal).
-- valor representante de dado faltante.
+- Valor representante de dado faltante.
 - Nome do arquivo de saida.
 
 # 🧮 Saída
