@@ -1,6 +1,6 @@
 Máscara Automática de Componentes em Dados Meteorológicos
 
-Este programa em C identifica componentes conexos com mesmo sinal (positivo ou negativo) em campos meteorológicos bidimensionais, armazenados em formato binário. Os componentes são definidos como conjuntos de células adjacentes com mesmo sinal (valor positivo ou negativo), formando regiões conectadas.
+Este programa em C identifica componentes conexos com mesmo sinal (positivo ou negativo) em campos meteorológicos, armazenados em formato binário. Os componentes são definidos como conjuntos de células adjacentes com mesmo sinal (valor positivo ou negativo), formando regiões conectadas.
 
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
 
