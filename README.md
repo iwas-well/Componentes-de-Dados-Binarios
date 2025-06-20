@@ -12,6 +12,7 @@ O dado é tratado como um grafo não direcionado, onde cada célula é um vérti
     O programa ignora células indefinidas ao buscar componentes.
 
 🧮 Saída
+    
     Um arquivo binário com até MAX_OUT_NT (padrão: 30) campos bidimensionais (nx × ny).
     Cada campo representa uma máscara com valores:
         1.0 para células pertencentes ao componente detectado.
