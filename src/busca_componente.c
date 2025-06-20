@@ -5,6 +5,7 @@
 #include "data.h"
 #include "queue.h"
 #include <math.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -58,40 +59,64 @@ int main(int argc, char* argv[])
 
     read_data(input_file, dado);
 
+    data aux;
     int estado[nx * ny];
-    // set vertices state as 0 (undef vertices are set as 1)
-    for (size_t x = 0; x < nx; x++)
-        for (size_t y = 0; y < ny; y++) {
-            estado[idx(dado, x, y)] = 0;
-            if (fabs(dado->bin[idx(dado, x, y)] - dado->undef) <= EPS)
-                estado[idx(dado, x, y)] = 1;
-        }
-
     size_t comp_size;
-    size_t output_nt = 0;
-    for (size_t x = 0; x < nx; x++) {
-        for (size_t y = 0; y < ny; y++) {
-            if (estado[idx(dado, x, y)] != 0)
-                continue;
+    size_t comp_num;
+    size_t max_comp_num = 0;
+    size_t t_max_comp_num = 0;
+    for (size_t t = 0; t < nt; t++) {
+        comp_num = 0;
 
-            fill_data(output, undef);
-            comp_size = busca_componente(dado, estado, x, y, output, 1);
-
-            if (comp_size >= MIN_COMPONENT_SIZE) {
-                write_data(output_file, output);
-                output_nt++;
+        // set vertices state as 0 (undef vertices are set as 1)
+        for (size_t x = 0; x < nx; x++)
+            for (size_t y = 0; y < ny; y++) {
+                estado[idx(dado, x, y)] = 0;
+                if (fabs(dado->bin[idx(dado, x, y)] - dado->undef) <= EPS)
+                    estado[idx(dado, x, y)] = 1;
             }
 
-            if (output_nt > MAX_OUT_NT) {
-                fclose(output_file);
-                fprintf(stderr, "Erro: numero de tempos do arquivo de saida ultrapassa "
-                                "numero maximo\n");
-                exit(1);
+        aux.bin = dado->bin + nx * ny * t;
+        aux.nx = dado->nx;
+        aux.ny = dado->ny;
+
+        for (size_t x = 0; x < nx; x++) {
+            for (size_t y = 0; y < ny; y++) {
+                if (estado[idx(&aux, x, y)] != 0)
+                    continue;
+
+                fill_data(output, undef);
+                comp_size = busca_componente(&aux, estado, x, y, output, 1);
+
+                if (comp_size >= MIN_COMPONENT_SIZE) {
+                    fseek(output_file, sizeof(float) * ((nx * ny * t) + (12 * nx * ny * comp_num)), SEEK_SET);
+                    write_data(output_file, output);
+                    comp_num++;
+                }
+
+                if (comp_num > MAX_OUT_NT) {
+                    fclose(output_file);
+                    fprintf(stderr, "Erro: numero de tempos do arquivo de saida ultrapassa "
+                                    "numero maximo\n");
+                    exit(1);
+                }
+                if (comp_num >= max_comp_num) {
+                    max_comp_num = comp_num;
+                    t_max_comp_num = t;
+                }
             }
         }
     }
 
-    printf("output_nt %ld\n", output_nt);
+    // escreve no ultimo byte para completar 12 meses do ultimo "ano"
+    if (t_max_comp_num != 12) {
+        printf("writing at %ld\n", sizeof(float) * (nx * ny * 12) * max_comp_num);
+        fseek(output_file, sizeof(float) * (nx * ny * 12) * max_comp_num, SEEK_SET);
+        char zero = '\0';
+        fwrite(&zero, 1, 1, output_file);
+    }
+
+    printf("nt %ld\n", max_comp_num * 12);
     fclose(input_file);
     fclose(output_file);
     return 0;
