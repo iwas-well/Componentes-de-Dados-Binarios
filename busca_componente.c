@@ -8,8 +8,6 @@
 
 // TODO
 // trocar "void* elem" por "size_t idx" in queue_append()
-// finish write_data()
-// test result
 #define MIN_COMPONENT_SIZE 80
 #define MAX_OUT_NT 30
 #define EPS 0.01

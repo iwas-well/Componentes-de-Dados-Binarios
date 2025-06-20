@@ -1,4 +1,4 @@
-dset ^ev_ext_en-ne+.bin
+dset ^input.bin
 title 
 undef 777.7
 xdef 58 linear 270.5 1
