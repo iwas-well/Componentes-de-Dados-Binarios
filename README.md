@@ -5,9 +5,10 @@ Este programa em C identifica componentes conexos em campos meteorológicos arma
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
 
 # 📂 Entrada
-- Um arquivo binário contendo nx * ny floats, representando um campo bidimensional.
+- Nome do arquivo binário de entrada contendo nx * ny * nt floats, representando um campo bidimensional.
 - Parâmetros de dimensão: nx (largura), ny (altura), nt (tempo, atualmente não utilizado no loop principal).
 - valor representante de dado faltante.
+- Nome do arquivo de saida.
 
 # 🧮 Saída
 - Um arquivo binário com até MAX_OUT_NT (padrão: 30) campos bidimensionais (nx × ny).
