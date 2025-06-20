@@ -21,7 +21,7 @@ O dado é tratado como um grafo não direcionado, onde cada célula é um vérti
 ```
 Exemplo:
 ```
-./mascara_componentes input.bin 58 71 1 777.7 saida.bin
+./mascara_componentes dados/input.bin 58 71 1 777.7 saida.bin
 ```
 
 # 🧠 Como Funciona
