@@ -5,26 +5,23 @@ Este programa em C identifica componentes conexos em campos meteorológicos arma
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
 
 # 📂 Entrada
-- Nome do arquivo binário de entrada contendo nx * ny * nt floats, representando um campo bidimensional.
-- Parâmetros de dimensão: nx (largura), ny (altura), nt (tempo, atualmente não utilizado no loop principal).
-- Valor representante de dado faltante.
-- Nome do arquivo de saida.
+- Um arquivo binário de entrada contendo nx * ny * nt floats, representando um campo bidimensional com valores positivos e negativos.
 
 # 🧮 Saída
 - Um arquivo binário com até MAX_OUT_NT (padrão: 30) campos bidimensionais (nx × ny).
     - Cada campo representa uma máscara com valores:
         1.0 para células pertencentes ao componente detectado.
-        777.7 para demais posições (valor indefinido).
+        <undef> para demais posições (valor indefinido passado por parâmetro).
     - Cada máscara representa um componente de tamanho ≥ MIN_COMPONENT_SIZE (padrão: 80).
     - O número de campos escritos é printado na saída padrão ao fim do programa.
 
 # ▶️ Uso
 ```
-./mascara_componentes <arquivo_entrada> <nx> <ny> <nt> <arquivo_saida>
+./mascara_componentes <arquivo_entrada> <nx> <ny> <nt> <undef> <arquivo_saida>
 ```
 Exemplo:
 ```
-./mascara_componentes dados.bin 100 80 1 saida.bin
+./mascara_componentes input.bin 58 71 1 777.7 saida.bin
 ```
 
 # 🧠 Como Funciona
