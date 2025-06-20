@@ -16,7 +16,7 @@ O dado é tratado como um grafo não direcionado, onde cada célula é um vérti
         1.0 para células pertencentes ao componente detectado.
         777.7 para demais posições (valor indefinido).
     - Cada máscara representa um componente de tamanho ≥ MIN_COMPONENT_SIZE (padrão: 80).
-    - O numero de campos escritos é printado na saída padrão ao fim do programa.
+    - O número de campos escritos é printado na saída padrão ao fim do programa.
 
 # ▶️ Uso
 ```
