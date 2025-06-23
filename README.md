@@ -1,5 +1,7 @@
 # Máscara Automática de Componentes em Dados Meteorológicos
 
+(TO ADD: Alteração feita para usar como input dados com 12 tempos. saida possui conjuntos de 12 tempos, cada conjunto n com as 12 n-esimas mascaras de cada timestep da entrada)
+
 Este programa em C identifica componentes conexos em campos meteorológicos armazenados em formato binário. Os componentes são definidos como conjuntos de células adjacentes com mesmo sinal (valor positivo ou negativo), formando regiões conectadas.
 
 O dado é tratado como um grafo não direcionado, onde cada célula é um vértice com até 8 vizinhos (adjacência de Moore). O programa gera automaticamente máscaras binárias (em novos arquivos binários) para os componentes com tamanho superior a um limiar mínimo.
