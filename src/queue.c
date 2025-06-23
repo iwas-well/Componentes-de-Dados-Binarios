@@ -2,15 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void queue_append(queue_t** queue, void* elem)
+void queue_append(queue_t** queue, size_t elem)
 {
     if (!queue) {
         fprintf(stderr, "Erro queue_append: fila nao existe\n");
         exit(EXIT_FAILURE);
     }
 
-    if (!elem) {
-        fprintf(stderr, "Erro queue_append: elemento nao existe\n");
+    if (elem == SIZE_T_ERROR) {
+        fprintf(stderr, "Erro queue_append: elemento invalido\n");
         exit(EXIT_FAILURE);
     }
 
@@ -47,12 +47,13 @@ void queue_append(queue_t** queue, void* elem)
     // printf("\n");
 }
 
-void* queue_pop(queue_t** queue)
+size_t queue_pop(queue_t** queue)
 {
-    void* elem;
+    // void* elem;
+    size_t elem;
 
     if (*queue == NULL)
-        return NULL;
+        return SIZE_T_ERROR;
 
     elem = (*queue)->elem;
     if ((*queue)->next == *queue) {

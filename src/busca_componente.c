@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// TODO
-// trocar "void* elem" por "size_t idx" in queue_append()
 #define MIN_COMPONENT_SIZE 80
 #define MAX_COMP_NUM 6
 #define EPS 0.01
@@ -128,28 +126,28 @@ size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
     float out_val)
 {
     queue_t* queue = NULL;
+    size_t ind;
 
-    position* cell;
-    cell = malloc(sizeof(position));
-    cell->x = i;
-    cell->y = j;
-    queue_append(&queue, cell);
+    queue_append(&queue, idx(in, i, j));
 
     int sign = (in->bin[idx(in, i, j)] > 0);
     estado[idx(in, i, j)] = 1;
     size_t comp_size = 1;
 
     // pop cell from queue until it empties
-    while ((cell = queue_pop(&queue))) {
-        //  each cell has 4 possible neighbors
-        //  one in each cardinal direction
+    while ((ind = queue_pop(&queue)) != SIZE_T_ERROR) {
+        size_t y = ind / in->nx;
+        size_t x = ind % in->nx;
+
+        //   each cell has 4 possible neighbors
+        //   one in each cardinal direction
         for (int k = -1; k <= 1; k++) {
             for (int l = -1; l <= 1; l++) {
                 if (k == 0 && l == 0) // neighbor cant be equal to own cell
                     continue;
 
-                size_t neigh_x = cell->x + k;
-                size_t neigh_y = cell->y + l;
+                size_t neigh_x = x + k;
+                size_t neigh_y = y + l;
 
                 // if cell position is out of bounds, continue
                 if (pos_out_of_bounds(in, neigh_x, neigh_y))
@@ -161,11 +159,7 @@ size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
                     // if sign of neigh cell is different from root cell sign,
                     // dont treat as a neighbor
                     if ((w > 0) == sign) {
-                        position* pos;
-                        pos = malloc(sizeof(position));
-                        pos->x = neigh_x;
-                        pos->y = neigh_y;
-                        queue_append(&queue, pos);
+                        queue_append(&queue, idx(in, neigh_x, neigh_y));
 
                         // set state of processed neighbor
                         estado[idx(in, neigh_x, neigh_y)] = 1;
@@ -175,7 +169,6 @@ size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
                 }
             }
         }
-        free(cell);
     }
 
     destroy_queue(&queue);
