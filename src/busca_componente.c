@@ -12,7 +12,7 @@
 // TODO
 // trocar "void* elem" por "size_t idx" in queue_append()
 #define MIN_COMPONENT_SIZE 80
-#define MAX_OUT_NT 30
+#define MAX_COMP_NUM 6
 #define EPS 0.01
 
 typedef struct {
@@ -66,37 +66,40 @@ int main(int argc, char* argv[])
     size_t max_comp_num = 0;
     size_t t_max_comp_num = 0;
     for (size_t t = 0; t < nt; t++) {
-        comp_num = 0;
-
-        // set vertices state as 0 (undef vertices are set as 1)
-        for (size_t x = 0; x < nx; x++)
-            for (size_t y = 0; y < ny; y++) {
-                estado[idx(dado, x, y)] = 0;
-                if (fabs(dado->bin[idx(dado, x, y)] - dado->undef) <= EPS)
-                    estado[idx(dado, x, y)] = 1;
-            }
 
         aux.bin = dado->bin + nx * ny * t;
         aux.nx = dado->nx;
         aux.ny = dado->ny;
+        aux.undef = dado->undef;
 
+        // set vertices state as 0 (undef vertices are set as 1)
+        for (size_t x = 0; x < nx; x++)
+            for (size_t y = 0; y < ny; y++) {
+                estado[idx(&aux, x, y)] = 0;
+                if (fabs(aux.bin[idx(&aux, x, y)] - aux.undef) <= EPS)
+                    estado[idx(&aux, x, y)] = 1;
+            }
+
+        comp_num = 0;
         for (size_t x = 0; x < nx; x++) {
             for (size_t y = 0; y < ny; y++) {
                 if (estado[idx(&aux, x, y)] != 0)
                     continue;
 
-                fill_data(output, undef);
+                // fill_data(output, undef);
+                fill_data(output, 0);
                 comp_size = busca_componente(&aux, estado, x, y, output, 1);
 
                 if (comp_size >= MIN_COMPONENT_SIZE) {
                     fseek(output_file, sizeof(float) * ((nx * ny * t) + (12 * nx * ny * comp_num)), SEEK_SET);
                     write_data(output_file, output);
                     comp_num++;
+                    printf("t: %ld comp_size: %ld\n", t, comp_size);
                 }
 
-                if (comp_num > MAX_OUT_NT) {
+                if (comp_num > MAX_COMP_NUM) {
                     fclose(output_file);
-                    fprintf(stderr, "Erro: numero de tempos do arquivo de saida ultrapassa "
+                    fprintf(stderr, "Erro: numero de componentes do arquivo de saida ultrapassa "
                                     "numero maximo\n");
                     exit(1);
                 }
@@ -110,13 +113,12 @@ int main(int argc, char* argv[])
 
     // escreve no ultimo byte para completar 12 meses do ultimo "ano"
     if (t_max_comp_num != 12) {
-        printf("writing at %ld\n", sizeof(float) * (nx * ny * 12) * max_comp_num);
         fseek(output_file, sizeof(float) * (nx * ny * 12) * max_comp_num, SEEK_SET);
-        char zero = '\0';
-        fwrite(&zero, 1, 1, output_file);
+        float zero = 0;
+        fwrite(&zero, sizeof(float), 1, output_file);
     }
 
-    printf("nt %ld\n", max_comp_num * 12);
+    printf("output nt %ld\n", max_comp_num * 12);
     fclose(input_file);
     fclose(output_file);
     return 0;

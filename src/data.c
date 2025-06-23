@@ -13,7 +13,7 @@ int write_data(FILE* out, data* dado)
 {
     size_t dims = dado->nx * dado->ny * dado->nt;
 
-    printf("dims: %ld\n", dims);
+    // printf("dims: %ld\n", dims);
     if (fwrite(dado->bin, sizeof(float), dims, out) < dims) {
         fprintf(stderr, "Erro write_data: nao foi possivel escrever binario\n");
         return 1;
@@ -30,7 +30,7 @@ int read_data(FILE* in, data* dado)
         exit(1);
     }
 
-    fread(dado->bin, sizeof(float), dado->nx * dado->ny, in);
+    fread(dado->bin, sizeof(float), dado->nx * dado->ny * dado->nt, in);
     return 0;
 }
 
