@@ -13,11 +13,6 @@
 #define MAX_COMP_NUM 6
 #define EPS 0.01
 
-typedef struct {
-    size_t x;
-    size_t y;
-} position;
-
 // for each vertex, set the component of the connected subgraph it belongs to
 // and returns the size of the component. Only considers vertices with state 0.
 size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
@@ -92,7 +87,7 @@ int main(int argc, char* argv[])
                     fseek(output_file, sizeof(float) * ((nx * ny * t) + (12 * nx * ny * comp_num)), SEEK_SET);
                     write_data(output_file, output);
                     comp_num++;
-                    printf("t: %ld comp_size: %ld\n", t, comp_size);
+                    // printf("t: %ld comp_size: %ld\n", t, comp_size);
                 }
 
                 if (comp_num > MAX_COMP_NUM) {
@@ -158,7 +153,8 @@ size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
                     float w = in->bin[idx(in, neigh_x, neigh_y)];
                     // if sign of neigh cell is different from root cell sign,
                     // dont treat as a neighbor
-                    if ((w > 0) == sign) {
+                    if (((w > 0) == sign) && (w != 0.0)) {
+                        // if ((w > 0) == sign) {
                         queue_append(&queue, idx(in, neigh_x, neigh_y));
 
                         // set state of processed neighbor
