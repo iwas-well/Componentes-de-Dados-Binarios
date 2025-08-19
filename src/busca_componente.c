@@ -127,6 +127,7 @@ size_t busca_componente(data* in, int* estado, size_t i, size_t j, data* out,
 
     int sign = (in->bin[idx(in, i, j)] > 0);
     estado[idx(in, i, j)] = 1;
+    out->bin[idx(in, i, j)] = out_val;
     size_t comp_size = 1;
 
     // pop cell from queue until it empties
